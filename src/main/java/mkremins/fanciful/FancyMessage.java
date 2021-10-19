@@ -475,6 +475,12 @@ public class FancyMessage implements JsonRepresentedObject, Cloneable, Iterable<
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + jsonString);
 	}
 
+	public void send(Player player, List<FancyMessage> fm) {
+		for (int i = 0; i < fm.size(); i++) {
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + fm.get(i).toJSONString());
+		}
+	}
+
 	/**
 	 * Sends this message to a command sender.
 	 * If the sender is a player, they will receive the fully-fledged formatted display of this message.
