@@ -13,6 +13,8 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -477,10 +479,10 @@ public class FancyMessage implements JsonRepresentedObject, Cloneable, Iterable<
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + jsonString);
 	}
 
-	public void send(Player player, List<FancyMessage> fm, Plugin plugin) {
+	public void send(Player player, List<FancyMessage> fm, BukkitScheduler bukkitScheduler, Plugin plugin) {
 		for (int i = 0; i < fm.size(); i++) {
 			final int finalI = i;
-			Bukkit.getScheduler().runTask(plugin, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + fm.get(finalI).toJSONString()));
+			bukkitScheduler.runTask(plugin, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + fm.get(finalI).toJSONString()));
 
 		}
 	}
