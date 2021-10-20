@@ -482,7 +482,14 @@ public class FancyMessage implements JsonRepresentedObject, Cloneable, Iterable<
 	public void send(Player player, List<FancyMessage> fm, BukkitScheduler bukkitScheduler, Plugin plugin) {
 		for (int i = 0; i < fm.size(); i++) {
 			final int finalI = i;
-			bukkitScheduler.runTask(plugin, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + fm.get(finalI).toJSONString()));
+			plugin.getConfig();
+			Bukkit.getScheduler().runTask(plugin, new Runnable() {
+				@Override
+				public void run() {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + fm.get(finalI).toJSONString());
+				}
+			});
+
 
 		}
 	}
