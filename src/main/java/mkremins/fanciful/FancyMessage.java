@@ -248,7 +248,7 @@ public class FancyMessage implements JsonRepresentedObject, Cloneable, Iterable<
 	public FancyMessage tooltip(final String... lines) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < lines.length; i++) {
-			builder.append(lines[i]);
+			builder.append(ChatColor.translateAlternateColorCodes('&', lines[i]));
 			if (i != lines.length - 1) {
 				builder.append('\n');
 			}
@@ -391,7 +391,7 @@ public class FancyMessage implements JsonRepresentedObject, Cloneable, Iterable<
 	 * @return This builder instance.
 	 */
 	public FancyMessage then(final String text) {
-		return then(rawText(text));
+		return then(rawText(ChatColor.translateAlternateColorCodes('&', text)));
 	}
 
 	/**
@@ -479,18 +479,9 @@ public class FancyMessage implements JsonRepresentedObject, Cloneable, Iterable<
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + jsonString);
 	}
 
-	public void send(Player player, List<FancyMessage> fm, BukkitScheduler bukkitScheduler, Plugin plugin) {
+	public void send(Player player, List<FancyMessage> fm) {
 		for (int i = 0; i < fm.size(); i++) {
-			final int finalI = i;
-			plugin.getConfig();
-			Bukkit.getScheduler().runTask(plugin, new Runnable() {
-				@Override
-				public void run() {
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + fm.get(finalI).toJSONString());
-				}
-			});
-
-
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + fm.get(i).toJSONString());
 		}
 	}
 
